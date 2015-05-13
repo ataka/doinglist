@@ -5,7 +5,7 @@
   "Doing List configuration."
   :group 'wp)
 
-(defgroup doinglist-data-directory "~/doinglist"
+(defcustom doinglist-data-directory "~/doinglist"
   "The directory in which to store Doing List data as files."
   :type 'directory
   :group 'doinglist)
