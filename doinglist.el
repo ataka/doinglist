@@ -57,6 +57,14 @@
         (/ (1- (length (match-string 1))) 2)
       0)))
 
-(defun doinglist-new-item (level)
+(defun doinglist-new-item (level &optional checked)
   (let* ((indent (* level 2)))
-    (format (concat "[ ] %" (number-to-string indent) "s") "")))
+    (format (concat (if checked "[x]" "[ ]") " %" (number-to-string indent) "s") "")))
+
+(defun doinglist-indent-item ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (let ((level (doinglist-get-level)))
+      (when (looking-at "^\\[\\([ x]\\)\\][[:space:]]+")
+        (replace-match (doinglist-new-item (1+ level) (equal (match-string 1) "x")))))))
