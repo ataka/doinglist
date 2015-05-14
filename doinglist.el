@@ -32,6 +32,7 @@
 
 (let ((map doinglist-mode-map))
   (define-key map "\r" 'doinglist-newline-and-insert-new-item)
+  (define-key map "\t" 'doinglist-indent-item)
 )
 
 ;;
