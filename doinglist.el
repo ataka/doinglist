@@ -27,6 +27,14 @@
   (doinglist-mode))
 
 ;;
+;; keymap
+;;
+
+(let ((map doinglist-mode-map))
+  (define-key map "\r" 'doinglist-newline-and-insert-new-item)
+)
+
+;;
 ;; Functions for doinglist-mode
 ;;
 
