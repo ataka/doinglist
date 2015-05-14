@@ -30,6 +30,11 @@
 ;; Functions for doinglist-mode
 ;;
 
+(defun doinglist-newline-and-insert-new-item ()
+  (interactive)
+  (insert "\n")
+  (doinglist-insert-new-item))
+
 (defun doinglist-insert-new-item ()
   (interactive)
   (let ((level (doinglist-get-level)))
