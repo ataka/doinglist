@@ -24,7 +24,9 @@
   (interactive)
   (find-file (expand-file-name (format-time-string "doing-%Y%m%d.txt")
                                doinglist-data-directory))
-  (doinglist-mode))
+  (doinglist-mode)
+  (when (and (bobp) (eobp))
+    (insert "[ ] ")))
 
 ;;
 ;; keymap
