@@ -81,7 +81,7 @@
     (beginning-of-line)
     (if (and (not (bobp))
              (progn (forward-line -1)
-                    (looking-at "^\\[[ x]\\]\\([[:space:]]+\\)")))
+                    (looking-at "^\\[[ x]\\]\\([[:blank:]]+\\)")))
         (/ (1- (length (match-string 1))) 2)
       0)))
 
@@ -94,7 +94,7 @@
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level)))
-      (when (looking-at "^\\[\\([ x]\\)\\][[:space:]]+")
+      (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
         (replace-match (doinglist-new-item (1+ level) (equal (match-string 1) "x")))))))
 
 (provide 'doinglist)
