@@ -99,13 +99,12 @@
 
 (defun doinglist-check-item (arg)
   (interactive "P")
-  (save-excursion
-    (beginning-of-line)
-    (if arg
-        (when (looking-at "^\\[x\\]")
-          (replace-match "[ ]"))
-      (when (looking-at "^\\[ \\]")
-        (replace-match "[x]")))))
+  (funcall (lambda (cons-regexp-replace)
+             (save-excursion
+               (beginning-of-line)
+               (when (looking-at (car cons-regexp-replace))
+                 (replace-match (cdr cons-regexp-replace)))))
+           (if arg '("^\\[x\\]" . "[ ]") '("^\\[ \\]" . "[x]"))))
 
 (provide 'doinglist)
 
