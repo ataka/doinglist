@@ -97,6 +97,13 @@
       (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
         (replace-match (doinglist-new-item (1+ level) (equal (match-string 1) "x")))))))
 
+(defun doinglist-check-item ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (when (looking-at "^\\[ \\]")
+      (replace-match "[x]"))))
+
 (provide 'doinglist)
 
 ;;; doinglist.el ends here
