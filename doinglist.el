@@ -97,6 +97,13 @@
       (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
         (replace-match (doinglist-new-item (1+ level) (equal (match-string 1) "x")))))))
 
+(defun doinglist-toggle-check ()
+  (interactive)
+  (let ((check (save-excursion
+                 (beginning-of-line)
+                 (looking-at "^\\[x\\]"))))
+    (doinglist-check-item check)))
+
 (defun doinglist-check-item (arg)
   (interactive "P")
   (apply (lambda (regexp replace)
