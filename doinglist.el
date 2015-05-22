@@ -74,14 +74,14 @@
 
 (defun doinglist-insert-new-item ()
   (interactive)
-  (let ((level (doinglist-get-level)))
+  (let ((level (doinglist-get-level -1)))
     (insert (doinglist-new-item level))))
 
-(defun doinglist-get-level ()
+(defun doinglist-get-level (&optional arg)
   (save-excursion
     (beginning-of-line)
     (if (and (not (bobp))
-             (progn (forward-line -1)
+             (progn (forward-line arg)
                     (looking-at "^\\[[ x]\\]\\([[:blank:]]+\\)")))
         (/ (1- (length (match-string 1))) 2)
       0)))
@@ -94,9 +94,18 @@
   (interactive)
   (save-excursion
     (beginning-of-line)
-    (let ((level (doinglist-get-level)))
+    (let ((level (doinglist-get-level -1)))
       (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
         (replace-match (doinglist-new-item (1+ level) (equal (match-string 1) "x")))))))
+
+(defun doinglist-unindent-item ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (let ((level (doinglist-get-level 0)))
+      (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
+        (replace-match (doinglist-new-item (1- level) (equal (match-string 1) "x")))))))
+
 
 (defun doinglist-toggle-check ()
   (interactive)
