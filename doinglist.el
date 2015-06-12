@@ -51,7 +51,7 @@
                                doinglist-data-directory))
   (doinglist-mode)
   (when (and (bobp) (eobp))
-    (insert "[ ] ")))
+    (doinglist-insert-new-item 0)))
 
 ;;
 ;; keymap
@@ -73,10 +73,9 @@
   (insert "\n")
   (doinglist-insert-new-item))
 
-(defun doinglist-insert-new-item ()
-  (interactive)
-  (let ((level (doinglist-get-level -1)))
-    (insert (doinglist-new-item level))))
+(defun doinglist-insert-new-item (&optional level)
+  (interactive (list (doinglist-get-level -1)))
+  (insert (doinglist-new-item level)))
 
 (defun doinglist-get-level (&optional arg)
   (save-excursion
