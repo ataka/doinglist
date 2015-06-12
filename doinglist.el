@@ -74,7 +74,8 @@
   (doinglist-insert-new-item))
 
 (defun doinglist-insert-new-item (&optional level)
-  (interactive (list (doinglist-get-level -1)))
+  (interactive "P")
+  (unless level (setq level (doinglist-get-level -1)))
   (insert (doinglist-new-item level)))
 
 (defun doinglist-get-level (&optional arg)
