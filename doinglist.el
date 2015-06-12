@@ -88,8 +88,10 @@
       0)))
 
 (defun doinglist-new-item (level &optional checked)
-  (let* ((indent (* level 2)))
-    (format (concat (if checked "[x]" "[ ]") " %" (number-to-string indent) "s") "")))
+  (let* ((indent (* level 2))
+         (indent-fmt (concat "%" (number-to-string indent) "s"))
+         (check-box (if checked "[x]" "[ ]")))
+    (concat check-box " " (format indent-fmt "")))
 
 (defun doinglist-indent-item ()
   (interactive)
