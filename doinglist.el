@@ -24,6 +24,9 @@
 ;; program's maintainer or write to: The Free Software Foundation,
 ;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
 
+(defvar doinglist-data-file ".doinglist"
+  "Doing List data file")
+
 ;;; Custom Variables
 
 (defgroup doinglist nil
