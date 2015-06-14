@@ -38,6 +38,11 @@
   :type 'directory
   :group 'doinglist)
 
+(defcustom doinglist-use-last-doinglist t
+  "If Non-Nil, create today's doinglist from last doinglist data"
+  :byte 'boolean
+  :group 'doinglist)
+
 ;;; Doing List mode
 
 (define-derived-mode doinglist-mode
