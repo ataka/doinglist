@@ -58,9 +58,11 @@
   (find-file (expand-file-name (format-time-string "doing-%Y%m%d.txt")
                                doinglist-data-directory))
   (doinglist-mode)
-  (when (and (bobp) (eobp))
+  (when (doinglist-new-doinglist-p)
     (doinglist-insert-new-item 0)))
 
+(defun doinglist-new-doinglist-p ()
+  (and (bobp) (eobp)))
 ;;
 ;; keymap
 ;;
