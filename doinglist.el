@@ -63,6 +63,16 @@
 
 (defun doinglist-new-doinglist-p ()
   (and (bobp) (eobp)))
+
+(defun doinglist-load-data ()
+  (let ((file (expand-file-name doinglist-data-file doinglist-data-directory)))
+    (when (file-exists-p file)
+      (with-temp-buffer
+        (insert-file-contents file)
+        (doinglist-read)))))
+
+(defun doinglist-read ())
+    
 ;;
 ;; keymap
 ;;
