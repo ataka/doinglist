@@ -24,6 +24,7 @@
 ;; program's maintainer or write to: The Free Software Foundation,
 ;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
 
+(defvar doinglist-last-date)
 (defvar doinglist-data-file ".doinglist"
   "Doing List data file")
 
@@ -71,8 +72,10 @@
         (insert-file-contents file)
         (doinglist-read)))))
 
-(defun doinglist-read ())
-    
+(defun doinglist-read ()
+  (save-excursion
+    (setq doinglist-last-date (read (current-buffer)))))
+
 ;;
 ;; keymap
 ;;
