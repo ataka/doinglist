@@ -111,7 +111,7 @@
   (let* ((indent (* level 2))
          (indent-fmt (concat "%" (number-to-string indent) "s"))
          (check-box (if checked "[x]" "[ ]")))
-    (concat check-box " " (format indent-fmt "")))
+    (concat check-box " " (format indent-fmt ""))))
 
 (defun doinglist-indent-item ()
   (interactive)
