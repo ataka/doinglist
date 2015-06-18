@@ -76,6 +76,10 @@
   (save-excursion
     (setq doinglist-last-date (read (current-buffer)))))
 
+(defun doinglist-write ()
+  (save-excursion
+    (print doinglist-last-date (current-buffer))))
+
 ;;
 ;; keymap
 ;;
