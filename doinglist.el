@@ -66,23 +66,26 @@
   (and (bobp) (eobp)))
 
 (defun doinglist-update-data ()
-  (let ((file (expand-file-name doinglist-data-file doinglist-data-directory)))
+  (let ((file (expand-file-name doinglist-data-file doinglist-data-directory))
+        tmp)
     (when (file-exists-p file)
       (with-temp-buffer
-        (insert-file-contents file)
-        (with-current-buffer (find-file-noselect file)
-          (setq doinglist-last-date (format-time-string "doing-%Y%m%d.txt"))
-          (doinglist-write)
-          (basic-save-buffer))
-        (doinglist-read)))))
+        (insert-file-contents file)        
+        (setq tmp (doinglist-read))))
+    (with-current-buffer (find-file-noselect file)
+      (doinglist-write (format-time-string "%Y%m%d"))
+      (basic-save-buffer))
+    (when tmp
+      (setq doinglist-last-date tmp))))
 
 (defun doinglist-read ()
   (save-excursion
-    (setq doinglist-last-date (read (current-buffer)))))
+    (read (current-buffer))))
 
-(defun doinglist-write ()
+(defun doinglist-write (data)
   (save-excursion
-    (print doinglist-last-date (current-buffer))))
+    (delete-region (point-min) (point-max))
+    (print data (current-buffer))))
 
 ;;
 ;; keymap
