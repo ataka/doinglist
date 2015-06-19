@@ -65,11 +65,15 @@
 (defun doinglist-new-doinglist-p ()
   (and (bobp) (eobp)))
 
-(defun doinglist-load-data ()
+(defun doinglist-update-data ()
   (let ((file (expand-file-name doinglist-data-file doinglist-data-directory)))
     (when (file-exists-p file)
       (with-temp-buffer
         (insert-file-contents file)
+        (with-current-buffer (find-file-noselect file)
+          (setq doinglist-last-date (format-time-string "doing-%Y%m%d.txt"))
+          (doinglist-write)
+          (basic-save-buffer))
         (doinglist-read)))))
 
 (defun doinglist-read ()
