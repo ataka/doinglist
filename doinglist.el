@@ -41,7 +41,7 @@
 
 (defcustom doinglist-use-last-doinglist t
   "If Non-Nil, create today's doinglist from last doinglist data"
-  :byte 'boolean
+  :type 'boolean
   :group 'doinglist)
 
 ;;; Doing List mode
