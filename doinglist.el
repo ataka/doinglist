@@ -60,6 +60,13 @@
                                doinglist-data-directory))
   (doinglist-mode)
   (when (doinglist-new-doinglist-p)
+    (when doinglist-use-last-doinglist
+      (doinglist-update-data)
+      (let ((old-file (expand-file-name
+                       (format "doing-%s.txt" doinglist-last-date)
+                       doinglist-data-directory)))
+        (when (file-exists-p old-file)
+          (insert-file-contents old-file))))
     (doinglist-insert-new-item 0)))
 
 (defun doinglist-new-doinglist-p ()
