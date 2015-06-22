@@ -66,7 +66,8 @@
                        (format "doing-%s.txt" doinglist-last-date)
                        doinglist-data-directory)))
         (when (file-exists-p old-file)
-          (insert-file-contents old-file))))
+          (insert-file-contents old-file)
+          (doinglist-remove-checked-items))))
     (doinglist-insert-new-item 0)))
 
 (defun doinglist-new-doinglist-p ()
