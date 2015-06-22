@@ -94,6 +94,14 @@
     (delete-region (point-min) (point-max))
     (print data (current-buffer))))
 
+(defun doinglist-remove-checked-items ()
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^\\[x\\]" nil t)
+      (let ((beg (progn (forward-line 0) (point)))
+            (end (progn (forward-line 1) (point))))
+        (delete-region beg end)))))
+
 ;;
 ;; keymap
 ;;
