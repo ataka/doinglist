@@ -56,14 +56,14 @@
 (defun doinglist ()
   "Find new DoingList"
   (interactive)
-  (find-file (expand-file-name (format-time-string "doing-%Y%m%d.txt")
+  (find-file (expand-file-name (format-time-string "%Y%m%d.doinglist")
                                doinglist-data-directory))
   (doinglist-mode)
   (when (doinglist-new-doinglist-p)
     (when doinglist-use-last-doinglist
       (doinglist-update-data)
       (let ((old-file (expand-file-name
-                       (format "doing-%s.txt" doinglist-last-date)
+                       (format "%s.doinglist" doinglist-last-date)
                        doinglist-data-directory)))
         (when (file-exists-p old-file)
           (insert-file-contents old-file)
