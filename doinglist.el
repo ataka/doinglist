@@ -60,7 +60,6 @@
   (interactive)
   (find-file (expand-file-name (format-time-string "%Y%m%d.doinglist")
                                doinglist-data-directory))
-  (doinglist-mode)
   (when (doinglist-new-doinglist-p)
     (when doinglist-use-last-doinglist
       (doinglist-update-data)
