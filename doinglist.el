@@ -24,6 +24,10 @@
 ;; program's maintainer or write to: The Free Software Foundation,
 ;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
 
+(defvar doinglist-last-date)
+(defvar doinglist-data-file ".doinglist"
+  "Doing List data file")
+
 ;;; Custom Variables
 
 (defgroup doinglist nil
@@ -33,6 +37,11 @@
 (defcustom doinglist-data-directory "~/doinglist"
   "The directory in which to store Doing List data as files."
   :type 'directory
+  :group 'doinglist)
+
+(defcustom doinglist-use-last-doinglist t
+  "If Non-Nil, create today's doinglist from last doinglist data"
+  :type 'boolean
   :group 'doinglist)
 
 ;;; Doing List mode
@@ -50,9 +59,54 @@
   (find-file (expand-file-name (format-time-string "doing-%Y%m%d.txt")
                                doinglist-data-directory))
   (doinglist-mode)
-  (when (and (bobp) (eobp))
+  (when (doinglist-new-doinglist-p)
+    (when doinglist-use-last-doinglist
+      (doinglist-update-data)
+      (let ((old-file (expand-file-name
+                       (format "doing-%s.txt" doinglist-last-date)
+                       doinglist-data-directory)))
+        (when (file-exists-p old-file)
+          (insert-file-contents old-file)
+          (doinglist-remove-checked-items))))
     (doinglist-insert-new-item 0)))
 
+(defun doinglist-new-doinglist-p ()
+  (and (bobp) (eobp)))
+
+(defun doinglist-update-data ()
+  (let ((file (expand-file-name doinglist-data-file doinglist-data-directory))
+        tmp)
+    (when (file-exists-p file)
+      (with-temp-buffer
+        (insert-file-contents file)        
+        (setq tmp (doinglist-read))))
+    (with-current-buffer (find-file-noselect file)
+      (doinglist-write (format-time-string "%Y%m%d"))
+      (basic-save-buffer))
+    (when tmp
+      (setq doinglist-last-date tmp))))
+
+(defun doinglist-read ()
+  (save-excursion
+    (read (current-buffer))))
+
+(defun doinglist-write (data)
+  (save-excursion
+    (delete-region (point-min) (point-max))
+    (print data (current-buffer))))
+
+(defun doinglist-remove-checked-items ()
+  (save-excursion
+    (doinglist-beginning-of-items)
+    (while (re-search-forward "^\\[x\\]" nil t)
+      (let ((beg (progn (forward-line 0) (point)))
+            (end (progn (forward-line 1) (point))))
+        (delete-region beg end)))))
+
+(defun doinglist-beginning-of-items ()
+  (goto-char (point-min))
+  (when (re-search-forward "^\\[" nil t)
+    (forward-line 0)))
 ;;
 ;; keymap
 ;;
@@ -91,7 +145,7 @@
   (let* ((indent (* level 2))
          (indent-fmt (concat "%" (number-to-string indent) "s"))
          (check-box (if checked "[x]" "[ ]")))
-    (concat check-box " " (format indent-fmt "")))
+    (concat check-box " " (format indent-fmt ""))))
 
 (defun doinglist-indent-item ()
   (interactive)
