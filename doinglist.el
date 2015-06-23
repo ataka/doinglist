@@ -156,16 +156,18 @@
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level -1)))
-      (when (looking-at "^[[:blank:]]*\\[\\([ x]\\)\\] ")
-        (replace-match (doinglist-new-item (1+ level) (equal (match-string 1) "x")))))))
+      (when (looking-at "^[[:blank:]]*\\(\\[[ x]\\]\\)")
+        (replace-match (concat (doinglist-indent (1+ level))
+                               (match-string 1)))))))
 
 (defun doinglist-unindent-item ()
   (interactive)
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level 0)))
-      (when (looking-at "^[[:blank:]]*\\[\\([ x]\\)\\] ")
-        (replace-match (doinglist-new-item (1- level) (equal (match-string 1) "x")))))))
+      (when (looking-at "^[[:blank:]]*\\(\\[[ x]\\]\\)")
+        (replace-match (concat (doinglist-indent (1- level))
+                               (match-string 1)))))))
 
 
 (defun doinglist-toggle-check ()
