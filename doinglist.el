@@ -46,6 +46,8 @@
 
 ;;; Doing List mode
 
+(add-to-list 'auto-mode-alist '("\\.doinglist\\'" . doinglist-mode))
+
 (define-derived-mode doinglist-mode
   text-mode "Doing-List"
   "Major mode to create, edit and manage your DoingList
