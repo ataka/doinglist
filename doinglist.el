@@ -143,10 +143,13 @@
       0)))
 
 (defun doinglist-new-item (level &optional checked)
+  (let ((check-box (if checked "[x]" "[ ]")))
+    (concat (doinglist-indent level) check-box " ")))
+
+(defun doinglist-indent (level)
   (let* ((indent (* level 2))
-         (indent-fmt (concat "%" (number-to-string indent) "s"))
-         (check-box (if checked "[x]" "[ ]")))
-    (concat (format indent-fmt "") check-box " ")))
+         (indent-fmt (concat "%" (number-to-string indent) "s")))
+    (format indent-fmt "")))
 
 (defun doinglist-indent-item ()
   (interactive)
