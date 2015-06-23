@@ -97,12 +97,16 @@
 
 (defun doinglist-remove-checked-items ()
   (save-excursion
-    (goto-char (point-min))
+    (doinglist-beginning-of-items)
     (while (re-search-forward "^\\[x\\]" nil t)
       (let ((beg (progn (forward-line 0) (point)))
             (end (progn (forward-line 1) (point))))
         (delete-region beg end)))))
 
+(defun doinglist-beginning-of-items ()
+  (goto-char (point-min))
+  (when (re-search-forward "^\\[" nil t)
+    (forward-line 0)))
 ;;
 ;; keymap
 ;;
