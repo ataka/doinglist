@@ -138,22 +138,22 @@
     (beginning-of-line)
     (if (and (not (bobp))
              (progn (forward-line arg)
-                    (looking-at "^\\[[ x]\\]\\([[:blank:]]+\\)")))
-        (/ (1- (length (match-string 1))) 2)
+                    (looking-at "^\\([[:blank:]]*\\)\\[[ x]\\]")))
+        (/ (length (match-string 1)) 2)
       0)))
 
 (defun doinglist-new-item (level &optional checked)
   (let* ((indent (* level 2))
          (indent-fmt (concat "%" (number-to-string indent) "s"))
          (check-box (if checked "[x]" "[ ]")))
-    (concat check-box " " (format indent-fmt ""))))
+    (concat (format indent-fmt "") check-box " ")))
 
 (defun doinglist-indent-item ()
   (interactive)
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level -1)))
-      (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
+      (when (looking-at "^[[:blank:]]*\\[\\([ x]\\)\\] ")
         (replace-match (doinglist-new-item (1+ level) (equal (match-string 1) "x")))))))
 
 (defun doinglist-unindent-item ()
@@ -161,7 +161,7 @@
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level 0)))
-      (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
+      (when (looking-at "^[[:blank:]]*\\[\\([ x]\\)\\] ")
         (replace-match (doinglist-new-item (1- level) (equal (match-string 1) "x")))))))
 
 
@@ -169,7 +169,7 @@
   (interactive)
   (let ((check (save-excursion
                  (beginning-of-line)
-                 (looking-at "^\\[x\\]"))))
+                 (looking-at "^[[:blank:]]*\\[x\\]"))))
     (doinglist-check-item check)))
 
 (defun doinglist-check-item (arg)
@@ -179,7 +179,9 @@
              (beginning-of-line)
              (when (looking-at regexp))
              (replace-match replace)))
-         (if arg '("^\\[x\\]" "[ ]") '("^\\[ \\]" "[x]"))))
+         (if arg
+             '("^\\([[:blank:]]*\\)\\[x\\]" "\\1[ ]")
+           '(  "^\\([[:blank:]]*\\)\\[ \\]" "\\1[x]"))))
 
 (provide 'doinglist)
 
