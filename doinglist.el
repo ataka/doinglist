@@ -188,6 +188,15 @@
              '("^\\([[:blank:]]*\\)\\[x\\]" "\\1[ ]")
            '(  "^\\([[:blank:]]*\\)\\[ \\]" "\\1[x]"))))
 
+;;
+;; misc functions
+;;
+
+(defun doinglist-beginning-of-items ()
+  (goto-char (point-min))
+  (when (re-search-forward "^\\([[:blank:]]*\\)\\[[x ]\\]" nil t)
+    (forward-line 0)))
+
 (provide 'doinglist)
 
 ;;; doinglist.el ends here
