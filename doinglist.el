@@ -104,10 +104,6 @@
             (end (progn (forward-line 1) (point))))
         (delete-region beg end)))))
 
-(defun doinglist-beginning-of-items ()
-  (goto-char (point-min))
-  (when (re-search-forward "^\\[" nil t)
-    (forward-line 0)))
 ;;
 ;; keymap
 ;;
