@@ -136,7 +136,7 @@
     (beginning-of-line)
     (if (and (not (bobp))
              (progn (forward-line arg)
-                    (looking-at "^\\([[:blank:]]*\\)\\[[ x]\\]")))
+                    (looking-at doinglist-checkbox-regexp)))
         (/ (length (match-string 1)) 2)
       0)))
 
@@ -154,16 +154,16 @@
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level -1)))
-      (when (looking-at "^[[:blank:]]*\\(\\[[ x]\\]\\)")
+      (when (looking-at doinglist-checkbox-regexp)
         (replace-match (concat (doinglist-indent (1+ level))
-                               (match-string 1)))))))
+                               (match-string 2)))))))
 
 (defun doinglist-unindent-item ()
   (interactive)
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level 0)))
-      (when (looking-at "^[[:blank:]]*\\(\\[[ x]\\]\\)")
+      (when (looking-at doinglist-checkbox-regexp)
         (replace-match (concat (doinglist-indent (1- level))
                                (match-string 1)))))))
 
@@ -192,7 +192,7 @@
 
 (defun doinglist-beginning-of-items ()
   (goto-char (point-min))
-  (when (re-search-forward "^\\([[:blank:]]*\\)\\[[x ]\\]" nil t)
+  (when (re-search-forward doinglist-checkbox-regexp nil t)
     (forward-line 0)))
 
 (provide 'doinglist)
