@@ -70,7 +70,8 @@
                        doinglist-data-directory)))
         (when (file-exists-p old-file)
           (insert-file-contents old-file)
-          (doinglist-remove-checked-items))))
+          (doinglist-remove-checked-items)
+          (goto-char (point-max)))))
     (doinglist-insert-new-item 0)))
 
 (defun doinglist-new-doinglist-p ()
