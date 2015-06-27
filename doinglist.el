@@ -46,6 +46,11 @@
   :type 'boolean
   :group 'doinglist)
 
+(defcustom doinglist-template-list nil
+  "List of doinglist items, inserted when find new doinglist file"
+  :type '(list (repeat string))
+  :group 'doinglist)
+
 ;;; Doing List mode
 
 (add-to-list 'auto-mode-alist '("\\.doinglist\\'" . doinglist-mode))
