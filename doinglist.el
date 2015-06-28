@@ -116,9 +116,12 @@
   (save-excursion
     (doinglist-beginning-of-items)
     (forward-line 0)
-    (insert (mapconcat (lambda (item)
-                         (concat (doinglist-new-item 0) item))
-                       doinglist-template-list "\n"))))
+    (insert (doinglist-template-string))))
+
+(defun doinglist-template-string ()
+  (mapconcat (lambda (item)
+               (concat (doinglist-new-item 0) item))
+             doinglist-template-list "\n"))
 
 ;;
 ;; keymap
