@@ -112,6 +112,14 @@
             (end (progn (forward-line 1) (point))))
         (delete-region beg end)))))
 
+(defun doinglist-insert-template ()
+  (save-excursion
+    (doinglist-beginning-of-items)
+    (forward-line 0)
+    (insert (mapconcat (lambda (item)
+                         (concat "[ ]" item))
+                       doinglist-template-list "\n"))))
+
 ;;
 ;; keymap
 ;;
