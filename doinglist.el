@@ -117,7 +117,7 @@
     (doinglist-beginning-of-items)
     (forward-line 0)
     (insert (mapconcat (lambda (item)
-                         (concat "[ ]" item))
+                         (concat (doinglist-new-item 0) item))
                        doinglist-template-list "\n"))))
 
 ;;
