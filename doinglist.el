@@ -77,7 +77,8 @@
           (insert-file-contents old-file)
           (doinglist-remove-checked-items)
           (goto-char (point-max)))))
-    (doinglist-insert-new-item 0)))
+    (doinglist-insert-new-item 0)
+    (doinglist-insert-template)))
 
 (defun doinglist-new-doinglist-p ()
   (and (bobp) (eobp)))
