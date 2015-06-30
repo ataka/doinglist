@@ -183,7 +183,7 @@
     (let ((level (doinglist-get-level 0)))
       (when (looking-at doinglist-checkbox-regexp)
         (replace-match (concat (doinglist-indent (1- level))
-                               (match-string 1)))))))
+                               (match-string 2)))))))
 
 
 (defun doinglist-toggle-check ()
