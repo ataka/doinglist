@@ -117,7 +117,7 @@
   (save-excursion
     (doinglist-beginning-of-items)
     (forward-line 0)
-    (insert (doinglist-template-string))))
+    (insert (doinglist-template-string) "\n")))
 
 (defun doinglist-template-string ()
   (mapconcat (lambda (item)
