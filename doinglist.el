@@ -196,7 +196,7 @@
   (interactive)
   (let ((check (save-excursion
                  (beginning-of-line)
-                 (looking-at "^[[:blank:]]*\\[x\\]"))))
+                 (looking-at doinglist-checked-checkbox-regexp))))
     (doinglist-check-item check)))
 
 (defun doinglist-check-item (arg)
@@ -207,8 +207,8 @@
              (when (looking-at regexp))
              (replace-match replace)))
          (if arg
-             '("^\\([[:blank:]]*\\)\\[x\\]" "\\1[ ]")
-           '(  "^\\([[:blank:]]*\\)\\[ \\]" "\\1[x]"))))
+             '(doinglist-checked-checkbox-regexp   "\\1[ ]")
+           '(  doinglist-unchecked-checkbox-regexp "\\1[x]"))))
 
 ;;
 ;; misc functions
