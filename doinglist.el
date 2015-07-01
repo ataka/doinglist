@@ -29,6 +29,10 @@
 (defconst doinglist-checkbox-regexp
   (concat doinglist-indent-checkbox-regexp "\\(\\[[ x]\\]\\)")
   "Regexp of Doing List checkbox")
+(defconst doinglist-checked-checkbox-regexp
+  (concat doinglist-indent-checkbox-regexp "\\(\\[x\\]\\)"))
+(defconst doinglist-unchecked-checkbox-regexp
+  (concat doinglist-indent-checkbox-regexp "\\(\\[ \\]\\)"))
 (defvar doinglist-data-file ".doinglist"
   "Doing List data file")
 
