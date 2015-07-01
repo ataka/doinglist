@@ -25,7 +25,9 @@
 ;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
 
 (defvar doinglist-last-date)
-(defconst doinglist-checkbox-regexp "^\\([[:blank:]]*\\)\\(\\[[ x]\\]\\)"
+(defconst doinglist-indent-checkbox-regexp "^\\([[:blank:]]*\\)")
+(defconst doinglist-checkbox-regexp
+  (concat doinglist-indent-checkbox-regexp "\\(\\[[ x]\\]\\)")
   "Regexp of Doing List checkbox")
 (defvar doinglist-data-file ".doinglist"
   "Doing List data file")
