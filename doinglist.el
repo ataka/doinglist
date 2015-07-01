@@ -114,7 +114,7 @@
 (defun doinglist-remove-checked-items ()
   (save-excursion
     (doinglist-beginning-of-items)
-    (while (re-search-forward doinglist-checkbox-regexp nil t)
+    (while (re-search-forward doinglist-checked-checkbox-regexp nil t)
       (let ((beg (progn (forward-line 0) (point)))
             (end (progn (forward-line 1) (point))))
         (delete-region beg end)))))
