@@ -207,8 +207,8 @@
              (when (looking-at regexp))
              (replace-match replace)))
          (if arg
-             '(doinglist-checked-checkbox-regexp   "\\1[ ]")
-           '(  doinglist-unchecked-checkbox-regexp "\\1[x]"))))
+             `(,doinglist-checked-checkbox-regexp   "\\1[ ]")
+           `(  ,doinglist-unchecked-checkbox-regexp "\\1[x]"))))
 
 ;;
 ;; misc functions
