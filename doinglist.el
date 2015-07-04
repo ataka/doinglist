@@ -27,12 +27,12 @@
 (defvar doinglist-last-date)
 (defconst doinglist-indent-checkbox-regexp "^\\([[:blank:]]*\\)")
 (defconst doinglist-checkbox-regexp
-  (concat doinglist-indent-checkbox-regexp "\\(\\[[ x]\\]\\)")
+  (concat doinglist-indent-checkbox-regexp "\\(\\[[ x]]\\)")
   "Regexp of Doing List checkbox")
 (defconst doinglist-checked-checkbox-regexp
-  (concat doinglist-indent-checkbox-regexp "\\(\\[x\\]\\)"))
+  (concat doinglist-indent-checkbox-regexp "\\(\\[x]\\)"))
 (defconst doinglist-unchecked-checkbox-regexp
-  (concat doinglist-indent-checkbox-regexp "\\(\\[ \\]\\)"))
+  (concat doinglist-indent-checkbox-regexp "\\(\\[ ]\\)"))
 (defvar doinglist-data-file ".doinglist"
   "Doing List data file")
 
