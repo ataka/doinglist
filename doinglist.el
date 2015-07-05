@@ -204,8 +204,8 @@
   (apply (lambda (regexp replace)
            (save-excursion
              (beginning-of-line)
-             (when (looking-at regexp))
-             (replace-match replace)))
+             (when (looking-at regexp)
+               (replace-match replace))))
          (if arg
              `(,doinglist-checked-checkbox-regexp   "\\1[ ]")
            `(  ,doinglist-unchecked-checkbox-regexp "\\1[x]"))))
