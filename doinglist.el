@@ -25,6 +25,14 @@
 ;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
 
 (defvar doinglist-last-date)
+(defconst doinglist-indent-checkbox-regexp "^\\([[:blank:]]*\\)")
+(defconst doinglist-checkbox-regexp
+  (concat doinglist-indent-checkbox-regexp "\\(\\[[ x]]\\)")
+  "Regexp of Doing List checkbox")
+(defconst doinglist-checked-checkbox-regexp
+  (concat doinglist-indent-checkbox-regexp "\\(\\[x]\\)"))
+(defconst doinglist-unchecked-checkbox-regexp
+  (concat doinglist-indent-checkbox-regexp "\\(\\[ ]\\)"))
 (defvar doinglist-data-file ".doinglist"
   "Doing List data file")
 
@@ -44,6 +52,11 @@
   :type 'boolean
   :group 'doinglist)
 
+(defcustom doinglist-template-list nil
+  "List of doinglist items, inserted when find new doinglist file"
+  :type '(list (repeat string))
+  :group 'doinglist)
+
 ;;; Doing List mode
 
 (add-to-list 'auto-mode-alist '("\\.doinglist\\'" . doinglist-mode))
@@ -60,7 +73,6 @@
   (interactive)
   (find-file (expand-file-name (format-time-string "%Y%m%d.doinglist")
                                doinglist-data-directory))
-  (doinglist-mode)
   (when (doinglist-new-doinglist-p)
     (when doinglist-use-last-doinglist
       (doinglist-update-data)
@@ -69,8 +81,10 @@
                        doinglist-data-directory)))
         (when (file-exists-p old-file)
           (insert-file-contents old-file)
-          (doinglist-remove-checked-items))))
-    (doinglist-insert-new-item 0)))
+          (doinglist-remove-checked-items)
+          (goto-char (point-max)))))
+    (doinglist-insert-new-item 0)
+    (doinglist-insert-template)))
 
 (defun doinglist-new-doinglist-p ()
   (and (bobp) (eobp)))
@@ -100,15 +114,22 @@
 (defun doinglist-remove-checked-items ()
   (save-excursion
     (doinglist-beginning-of-items)
-    (while (re-search-forward "^\\[x\\]" nil t)
+    (while (re-search-forward doinglist-checked-checkbox-regexp nil t)
       (let ((beg (progn (forward-line 0) (point)))
             (end (progn (forward-line 1) (point))))
         (delete-region beg end)))))
 
-(defun doinglist-beginning-of-items ()
-  (goto-char (point-min))
-  (when (re-search-forward "^\\[" nil t)
-    (forward-line 0)))
+(defun doinglist-insert-template ()
+  (save-excursion
+    (doinglist-beginning-of-items)
+    (forward-line 0)
+    (insert (doinglist-template-string) "\n")))
+
+(defun doinglist-template-string ()
+  (mapconcat (lambda (item)
+               (concat (doinglist-new-item 0) item))
+             doinglist-template-list "\n"))
+
 ;;
 ;; keymap
 ;;
@@ -139,38 +160,43 @@
     (beginning-of-line)
     (if (and (not (bobp))
              (progn (forward-line arg)
-                    (looking-at "^\\[[ x]\\]\\([[:blank:]]+\\)")))
-        (/ (1- (length (match-string 1))) 2)
+                    (looking-at doinglist-checkbox-regexp)))
+        (/ (length (match-string 1)) 2)
       0)))
 
 (defun doinglist-new-item (level &optional checked)
+  (let ((check-box (if checked "[x]" "[ ]")))
+    (concat (doinglist-indent level) check-box " ")))
+
+(defun doinglist-indent (level)
   (let* ((indent (* level 2))
-         (indent-fmt (concat "%" (number-to-string indent) "s"))
-         (check-box (if checked "[x]" "[ ]")))
-    (concat check-box " " (format indent-fmt ""))))
+         (indent-fmt (concat "%" (number-to-string indent) "s")))
+    (format indent-fmt "")))
 
 (defun doinglist-indent-item ()
   (interactive)
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level -1)))
-      (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
-        (replace-match (doinglist-new-item (1+ level) (equal (match-string 1) "x")))))))
+      (when (looking-at doinglist-checkbox-regexp)
+        (replace-match (concat (doinglist-indent (1+ level))
+                               (match-string 2)))))))
 
 (defun doinglist-unindent-item ()
   (interactive)
   (save-excursion
     (beginning-of-line)
     (let ((level (doinglist-get-level 0)))
-      (when (looking-at "^\\[\\([ x]\\)\\][[:blank:]]+")
-        (replace-match (doinglist-new-item (1- level) (equal (match-string 1) "x")))))))
+      (when (looking-at doinglist-checkbox-regexp)
+        (replace-match (concat (doinglist-indent (1- level))
+                               (match-string 2)))))))
 
 
 (defun doinglist-toggle-check ()
   (interactive)
   (let ((check (save-excursion
                  (beginning-of-line)
-                 (looking-at "^\\[x\\]"))))
+                 (looking-at doinglist-checked-checkbox-regexp))))
     (doinglist-check-item check)))
 
 (defun doinglist-check-item (arg)
@@ -178,9 +204,20 @@
   (apply (lambda (regexp replace)
            (save-excursion
              (beginning-of-line)
-             (when (looking-at regexp))
-             (replace-match replace)))
-         (if arg '("^\\[x\\]" "[ ]") '("^\\[ \\]" "[x]"))))
+             (when (looking-at regexp)
+               (replace-match replace))))
+         (if arg
+             `(,doinglist-checked-checkbox-regexp   "\\1[ ]")
+           `(  ,doinglist-unchecked-checkbox-regexp "\\1[x]"))))
+
+;;
+;; misc functions
+;;
+
+(defun doinglist-beginning-of-items ()
+  (goto-char (point-min))
+  (when (re-search-forward doinglist-checkbox-regexp nil t)
+    (forward-line 0)))
 
 (provide 'doinglist)
 
