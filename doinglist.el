@@ -194,10 +194,12 @@
 
 (defun doinglist-toggle-check ()
   (interactive)
-  (let ((check (save-excursion
-                 (beginning-of-line)
-                 (looking-at doinglist-checked-checkbox-regexp))))
-    (doinglist-check-item check)))
+  (doinglist-check-item (doinglist-check-p)))
+
+(defun doinglist-check-p ()
+  (save-excursion
+    (forward-line 0)
+    (looking-at doinglist-checked-checkbox-regexp)))
 
 (defun doinglist-check-item (arg)
   (interactive "P")
