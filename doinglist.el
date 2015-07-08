@@ -192,8 +192,10 @@
                                (match-string 2)))))))
 
 
-(defun doinglist-toggle-check-region (beg end)
-  (interactive "r")
+(defun doinglist-toggle-check-region (&optional beg end)
+  (interactive (if (use-region-p) (list (region-beginning) (region-end))
+                 (list (save-excursion (forward-line 0) (point))
+                       (save-excursion (end-of-line  1) (point)))))
   (save-excursion
     (save-restriction
       (narrow-to-region beg end)
