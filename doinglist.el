@@ -192,12 +192,21 @@
                                (match-string 2)))))))
 
 
-(defun doinglist-toggle-check ()
-  (interactive)
-  (let ((check (save-excursion
-                 (beginning-of-line)
-                 (looking-at doinglist-checked-checkbox-regexp))))
-    (doinglist-check-item check)))
+(defun doinglist-toggle-check (&optional beg end)
+  (interactive (if (use-region-p) (list (region-beginning) (region-end))
+                 (list (save-excursion (forward-line 0) (point))
+                       (save-excursion (end-of-line  1) (point)))))
+  (save-excursion
+    (save-restriction
+      (narrow-to-region beg end)
+      (goto-char (point-min))
+      (while (re-search-forward doinglist-checkbox-regexp end t)
+        (doinglist-check-item (doinglist-check-p))))))
+
+(defun doinglist-check-p ()
+  (save-excursion
+    (forward-line 0)
+    (looking-at doinglist-checked-checkbox-regexp)))
 
 (defun doinglist-check-item (arg)
   (interactive "P")
