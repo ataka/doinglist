@@ -140,13 +140,13 @@
         (hour  4)
         (start-char "[")
         (end-char   "]")
-        (line       ?-)
+        (time-char   ? )
         (separator  "|")
         result)
     (concat start-char
             (substring 
              (dotimes (i (- end start) result)
-               (setq result (concat result (make-string hour line) separator)))
+               (setq result (concat result (make-string hour time-char) separator)))
              0 -1)
             end-char)))
 
