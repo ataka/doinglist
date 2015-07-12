@@ -131,6 +131,26 @@
              doinglist-template-list "\n"))
 
 ;;
+;; Scheduler
+;;
+
+(defun doinglist-scheduler-new-scheduler ()
+  (let ((start 9)
+        (end   22)
+        (hour  4)
+        (start-char "[")
+        (end-char   "]")
+        (line       ?-)
+        (separator  "|")
+        result)
+    (concat start-char
+            (substring 
+             (dotimes (i (- end start) result)
+               (setq result (concat result (make-string hour line) separator)))
+             0 -1)
+            end-char)))
+
+;;
 ;; keymap
 ;;
 
