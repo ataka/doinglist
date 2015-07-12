@@ -150,6 +150,18 @@
              0 -1)
             end-char)))
 
+(defun doinglist-scheduler-ruler ()
+  (let ((start 9)
+        (end   22)
+        (hour  4)
+        (time-char ? )
+        result time)
+    (concat (dotimes (i (- end start) result)
+              (setq time (+ start i))
+              (setq result (concat result
+                                   (number-to-string time)
+                                   (make-string hour time-char))))
+            (number-to-string end))))
 ;;
 ;; keymap
 ;;
