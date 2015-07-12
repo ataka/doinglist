@@ -160,7 +160,7 @@
               (setq time (+ start i))
               (setq result (concat result
                                    (number-to-string time)
-                                   (make-string hour time-char))))
+                                   (make-string (if (> time 8) (1- hour) hour) time-char))))
             (number-to-string end))))
 ;;
 ;; keymap
