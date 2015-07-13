@@ -162,6 +162,29 @@
                                    (number-to-string time)
                                    (make-string (if (> time 8) (1- hour) hour) time-char))))
             (number-to-string end))))
+
+(defun doinglist-scheduler-read ()
+  (let ((regexp (concat doinglist-indent-checkbox-regexp
+                        doinglist-checkbox-regexp
+                        " \\([0-9:]+\\)-\\([0-9:]+\\) \\(.\\)"))
+         schedules schedule start-hour start-min end-hour end-min char)
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward regexp nil t)
+        (let* ((start  (doinglist-time-string-to-number (match-string 3)))
+               (end    (doinglist-time-string-to-number (match-string 4)))
+               (symbol (match-string 5))
+               (start-hour (/ start 100))
+               (end-hour   (/ end   100))
+               (start-min  (% start 100))
+               (end-min    (% end   100))
+               result)
+          (setq result (cons `(,start-hour ,start-min ,end-hour ,end-min ,symbol)
+                             resulst)))))))
+
+(defun doinglist-time-string-to-number (time-string)
+  (string-to-number (apply 'concat (split-string time-string ":"))))
+
 ;;
 ;; keymap
 ;;
