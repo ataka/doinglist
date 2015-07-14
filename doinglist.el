@@ -164,23 +164,18 @@
             (number-to-string end))))
 
 (defun doinglist-scheduler-read ()
-  (let ((regexp (concat doinglist-indent-checkbox-regexp
-                        doinglist-checkbox-regexp
+  (let ((regexp (concat doinglist-checkbox-regexp
                         " \\([0-9:]+\\)-\\([0-9:]+\\) \\(.\\)"))
-         schedules schedule start-hour start-min end-hour end-min char)
+         schedules start-hour start-min end-hour end-min)
     (save-excursion
       (goto-char (point-min))
       (while (re-search-forward regexp nil t)
-        (let* ((start  (doinglist-time-string-to-number (match-string 3)))
-               (end    (doinglist-time-string-to-number (match-string 4)))
-               (symbol (match-string 5))
-               (start-hour (/ start 100))
-               (end-hour   (/ end   100))
-               (start-min  (% start 100))
-               (end-min    (% end   100))
-               result)
-          (setq result (cons `(,start-hour ,start-min ,end-hour ,end-min ,symbol)
-                             resulst)))))))
+        (let* ((start (doinglist-time-string-to-number (match-string 3)))
+               (end   (doinglist-time-string-to-number (match-string 4)))
+               (char (match-string 5)))
+          (setq schedules (cons `(,start ,end ,char)
+                                schedules))))
+      schedules)))
 
 (defun doinglist-time-string-to-number (time-string)
   (string-to-number (apply 'concat (split-string time-string ":"))))
