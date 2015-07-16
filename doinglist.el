@@ -150,13 +150,23 @@
              0 -1)
             end-char)))
 
+(defcustom doinglist-scheduler-start-time 9
+  "Time to start scheduler"
+  :type 'integer
+  :group 'doinglist)
+
+(defcustom doinglist-scheduler-end-time 9
+  "Time to end scheduler"
+  :type 'integer
+  :group 'doinglist)
+
 (defun doinglist-scheduler-ruler ()
   (let ((start 9)
         (end   22)
         (hour  4)
         (time-char ? )
         result time)
-    (concat (dotimes (i (- end start) result)
+    (concat (dotimes (i (- doinglist-scheduler-end-time doinglist-scheduler-start-time) result)
               (setq time (+ start i))
               (setq result (concat result
                                    (number-to-string time)
