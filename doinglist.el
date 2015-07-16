@@ -161,12 +161,11 @@
   :group 'doinglist)
 
 (defun doinglist-scheduler-ruler ()
-  (let ((start 9)
-        (end   22)
+  (let ((count (- doinglist-scheduler-end-time doinglist-scheduler-start-time))
         (hour  4)
         (time-char ? )
         result time)
-    (concat (dotimes (i (- doinglist-scheduler-end-time doinglist-scheduler-start-time) result)
+    (concat (dotimes (i count result)
               (setq time (+ start i))
               (setq result (concat result
                                    (number-to-string time)
