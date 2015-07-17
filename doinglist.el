@@ -160,9 +160,14 @@
   :type 'integer
   :group 'doinglist)
 
+(defcustom doinglist-scheduler-hour-width 4
+  "Width of one hour for scheduler"
+  :type 'integer
+  :group 'doinglist)
+
 (defun doinglist-scheduler-ruler ()
   (let ((count (- doinglist-scheduler-end-time doinglist-scheduler-start-time))
-        (hour  4)
+        (hour  doinglist-scheduler-hour-width)
         (time-char ? )
         result time)
     (concat (dotimes (i count result)
