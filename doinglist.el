@@ -155,7 +155,7 @@
   :type 'integer
   :group 'doinglist)
 
-(defcustom doinglist-scheduler-end-time 9
+(defcustom doinglist-scheduler-end-time 21
   "Time to end scheduler"
   :type 'integer
   :group 'doinglist)
