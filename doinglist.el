@@ -135,17 +135,16 @@
 ;;
 
 (defun doinglist-scheduler-new-scheduler ()
-  (let ((start 9)
-        (end   22)
-        (hour  4)
-        (start-char "[")
-        (end-char   "]")
+  (let ((count (- doinglist-scheduler-end-time doinglist-scheduler-start-time))
+        (hour  doinglist-scheduler-hour-width)
+        (start-char "|")
+        (end-char   "|")
         (time-char   ? )
         (separator  "|")
         result)
     (concat start-char
-            (substring 
-             (dotimes (i (- end start) result)
+            (substring
+             (dotimes (i count result)
                (setq result (concat result (make-string hour time-char) separator)))
              0 -1)
             end-char)))
