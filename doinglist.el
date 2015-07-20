@@ -149,6 +149,20 @@
              0 -1)
             end-char)))
 
+(defun doinglist-scheduler-event-string (event)
+  (let* ((event-start (nth 0 event))
+         (event-end   (nth 1 event))
+         (event-str   (nth 2 event))
+         (start-hour (/ event-start 100))
+         (start-min  (% event-start 100))
+         (end-hour   (/ event-end 100))
+         (end-min    (% event-end 100))
+         (span       (/ 60 doinglist-scheduler-hour-width)))
+    (make-string (/ (- (+ (* 60 end-hour) end-min)
+                       (+ (* 60 start-hour) start-min))
+                    span)
+                 (string-to-char event-str))))
+
 (defcustom doinglist-scheduler-start-time 9
   "Time to start scheduler"
   :type 'integer
